@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "title": "Python Developer",
+        "company": "Tech Solutions",
+        "location": "Helsinki",
+        "description": "Python developer with experience in Python, Flask, FastAPI, REST API, SQL, PostgreSQL, Git and Docker. Backend development and software engineering experience is required."
+    },
+    {
+        "id": 2,
+        "title": "Data Analyst",
+        "company": "Data Corp",
+        "location": "Helsinki",
+        "description": "Data Analyst with Python, SQL, Excel, statistics, pandas, NumPy and data visualization skills. Experience with data analysis and reporting is required."
+    },
+    {
+        "id": 3,
+        "title": "Frontend Developer",
+        "company": "Web Studio",
+        "location": "Espoo",
+        "description": "Frontend Developer with React, JavaScript, HTML, CSS and Git experience. Knowledge of REST API and modern web application development is preferred."
+    },
+    {
+        "id": 4,
+        "title": "Machine Learning Engineer",
+        "company": "AI Labs",
+        "location": "Helsinki",
+        "description": "Machine Learning Engineer with Python, machine learning, scikit-learn, pandas, NumPy and NLP experience. Knowledge of artificial intelligence and data science is required."
+    },
+    {
+        "id": 5,
+        "title": "Backend Developer",
+        "company": "Software Factory",
+        "location": "Tampere",
+        "description": "Backend Developer with Python, Flask, FastAPI, REST API, SQL, PostgreSQL, Docker and Git experience. API development and database knowledge are required."
+    },
+    {
+        "id": 6,
+        "title": "Junior Software Developer",
+        "company": "Digital Systems",
+        "location": "Espoo",
+        "description": "Junior Software Developer with Python, JavaScript, Git, SQL, HTML and CSS knowledge. Basic software development and REST API experience is preferred."
+    },
+    {
+        "id": 7,
+        "title": "NLP Engineer",
+        "company": "Language AI",
+        "location": "Helsinki",
+        "description": "NLP Engineer with Python, NLP, natural language processing, spaCy, machine learning and scikit-learn experience. Text classification and information extraction knowledge is beneficial."
+    },
+    {
+        "id": 8,
+        "title": "Full Stack Developer",
+        "company": "Web Technologies",
+        "location": "Vantaa",
+        "description": "Full Stack Developer with React, JavaScript, Python, Flask, SQL, HTML, CSS, Git and REST API experience."
+    }
+]
