@@ -1,134 +1,93 @@
 import json
+import os
 
-from sklearn.feature_extraction.text import (
-    TfidfVectorizer
-)
-
-from sklearn.metrics.pairwise import (
-    cosine_similarity
-)
-
-from config import JOBS_FILE
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 def load_jobs():
     """
-    jobs.json se jobs load karta hai.
+    Load jobs from jobs.json.
     """
 
-    with open(
-        JOBS_FILE,
-        "r",
-        encoding="utf-8"
-    ) as file:
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "jobs.json"
+    )
 
-        jobs = json.load(file)
-
-    return jobs
+    with open(file_path, "r", encoding="utf-8") as file:
+        return json.load(file)
 
 
-def calculate_similarity(
-    cv_text,
-    jobs
-):
+def recommend_jobs(cv_text, top_n=5):
     """
-    CV aur jobs ke beech
-    cosine similarity calculate karta hai.
+    Compare CV text with job descriptions
+    using TF-IDF and cosine similarity.
     """
 
-    documents = [cv_text]
+    jobs = load_jobs()
+
+    if not cv_text.strip():
+        return []
+
+    job_texts = []
 
     for job in jobs:
 
-        documents.append(
-            job["description"]
+        skills = " ".join(job.get("skills", []))
+
+        description = job.get(
+            "description",
+            ""
         )
 
+        combined_text = (
+            job.get("title", "")
+            + " "
+            + description
+            + " "
+            + skills
+        )
 
-    # TF-IDF
+        job_texts.append(combined_text)
+
+    documents = [cv_text] + job_texts
+
     vectorizer = TfidfVectorizer(
         stop_words="english"
     )
 
-
-    tfidf_matrix = (
-        vectorizer.fit_transform(
-            documents
-        )
+    tfidf_matrix = vectorizer.fit_transform(
+        documents
     )
 
+    cv_vector = tfidf_matrix[0]
 
-    # CV vector
-    cv_vector = tfidf_matrix[0:1]
-
-
-    # Job vectors
     job_vectors = tfidf_matrix[1:]
 
-
-    # Cosine similarity
     similarities = cosine_similarity(
         cv_vector,
         job_vectors
     )[0]
 
-
-    return similarities
-
-
-def recommend_jobs(
-    cv_text,
-    top_n=5
-):
-    """
-    CV ke liye top matching jobs return karta hai.
-    """
-
-    jobs = load_jobs()
-
-
-    if not jobs:
-        return []
-
-
-    similarities = calculate_similarity(
-        cv_text,
-        jobs
-    )
-
-
     recommendations = []
 
-
-    for index, similarity in enumerate(
-        similarities
-    ):
+    for index, score in enumerate(similarities):
 
         job = jobs[index].copy()
 
-
-        # Similarity 0-1 hoti hai.
-        # Isko percentage mein convert kar rahe hain.
-        match_score = (
-            float(similarity) * 100
-        )
-
-
-        job["match_score"] = round(
-            match_score,
+        match_percentage = round(
+            float(score) * 100,
             2
         )
 
+        job["match_percentage"] = match_percentage
 
         recommendations.append(job)
 
-
-    # Highest score first
     recommendations.sort(
-        key=lambda job: job["match_score"],
+        key=lambda job: job["match_percentage"],
         reverse=True
     )
 
-
-    # Top N jobs
     return recommendations[:top_n]
